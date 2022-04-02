@@ -1,0 +1,1 @@
+.\programy\ruby311_x64\bin\ruby.exe .\backup.rb

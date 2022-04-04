@@ -20,12 +20,13 @@ end
 
 Year_Week = Time.now.strftime("%Y-%W") # Rok a týden
 
+
 ####### vytvoření backupů ######
 stations.each_with_index { |station, i|
     if system("ping -w 800 #{station[0]} -n 4")  # backup only if station is online
         station[3] = "\"#{station[3]}\""  # přidání uvozovek
 
-        puts("\n ==== připojit disk ====")°°
+        puts("\n ==== připojit disk ====")
         connect = "net use Q: \\\\#{station[0]}\\c$"
         if station[1] != ""  # pokud je uvedené jméno
             connect = connect +  " /user:#{station[1]} #{station[2]}"
@@ -33,8 +34,8 @@ stations.each_with_index { |station, i|
         system(connect) # připojit síťový disk
 
         puts("==== start archivace ====")
-		system("#{path}programy/7z2107_x64/7za.exe u -r -up1q0r2x1y2z1w2 -y -bb #{backup_location}backup_#{station[0]}_#{Year_Week}.7z " +
-			   "#{station[3]} 1> #{log_location}log-#{station[0]}.txt 2> #{err_location}err-#{station[0]}.txt")  # vytvořit backup
+        system("#{path}programy/7z2107_x64/7za.exe u -r -up1q0r2x1y2z1w2 -y -bb #{backup_location}backup_#{station[0]}_#{Year_Week}.7z " +
+               "#{station[3]} 1> #{log_location}log-#{station[0]}.txt 2> #{err_location}err-#{station[0]}.txt")  # vytvořit backup
         puts("==== konec archivace ===")
 
         puts("\n ==== odpojit disk ====")
@@ -69,9 +70,11 @@ error_logs.each { |log|
 File.open("#{path}errors.txt", "w") { |f|
     error_logs2.each { |log|
         f.write("==================== #{log} ====================\n\n")
-        File.readlines(log).each { |line|
+        File.readlines(log, :encoding => "CP852").each { |line|  # otevřít soubor v kódové stránce 852
             if line != "\n"
+                line = line.encode("UTF-8")  # překódování textu z CP852 na UTF-8
                 f.write(line)
+                puts(line)
             end
             }
         f.write("\n\n")
@@ -81,5 +84,6 @@ File.open("#{path}errors.txt", "w") { |f|
 # zabalení logů do log.7z
 system("#{path}programy/7z2107_x64/7za.exe a log.7z #{log_location}log*")
 
+
 # odelsání mailu
-system("#{path}programy/blat3222_x64/blat.exe #{path}errors.txt -ti 45 -to \"kurz@fosfa.cz\" -subject \"backup scada\" -f backup_scada@noreply.com -server smtp.fosfa.cz -attach #{path}log.7z")
+system("#{path}programy/blat3222_x64/blat.exe #{path}errors.txt -ti 45 -to \"kurz@fosfa.cz\" -subject \"backup scada 2\" -f backup_scada@noreply.com -server smtp.fosfa.cz -attach #{path}log.7z")

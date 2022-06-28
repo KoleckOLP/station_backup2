@@ -21,8 +21,10 @@ File.readlines("#{path}stations.csv").each { |line|
 
 year_week = Time.now.strftime("%Y-%W") # Rok a týden
 
-system("del /Q #{err_location.gsub("/","\\")}*.*")
-system("del /Q #{log_location.gsub("/","\\")}*.*")
+system("del /Q #{err_location.gsub("/","\\")}*.*")  # smaže všechny předchozí errory
+system("del /Q #{log_location.gsub("/","\\")}*.*")  # smaže všechny předchozí logy
+system("del /Q #{path.gsub("/","\\")}log.7z")  # smaže log co byl minule poslán emailem
+system("del /Q #{path.gsub("/","\\")}errors.txt")  # smaže error log z minula
 
 ####### vytvoření backupů ######
 stations.each_with_index { |station, i|
@@ -37,7 +39,7 @@ stations.each_with_index { |station, i|
         system(connect) # připojit síťový disk
 
         puts("==== start archivace ====")
-        system("#{path}programy/7z2107_x64/7za.exe u -r -up1q0r2x1y2z1w2 -y -bb #{backup_location}backup_#{station[0]}_#{year_week}.7z " +
+        system("#{path}programy/7z_x64/7za.exe u -r -up1q0r2x1y2z1w2 -y -bb #{backup_location}backup_#{station[0]}_#{year_week}.7z " +
                "#{station[4]} 1> #{log_location}log-#{station[0]}.txt 2> #{err_location}err-#{station[0]}.txt")  # vytvořit backup
         puts("==== konec archivace ===")
 
@@ -81,7 +83,7 @@ File.open("#{path}errors.txt", "w") { |f|
     }
 
 # zabalení logů do log.7z
-system("#{path}programy/7z2107_x64/7za.exe a log.7z #{log_location}log*")
+system("#{path}programy/7z_x64/7za.exe a log.7z #{log_location}log*")
 
 # odelsání mailu
-system("#{path}programy/blat3222_x64/blat.exe #{path}errors.txt -ti 45 -to \"kurz@fosfa.cz\" -subject \"backup scada 2\" -f backup_scada@noreply.com -server smtp.fosfa.cz -attach #{path}log.7z")
+system("#{path}programy/blat_x64/blat.exe #{path}errors.txt -ti 45 -to \"smaple@mail.com\" -subject \"backup scada 2\" -f backup_scada@noreply.com -server smtp.fosfa.cz -attach #{path}log.7z")

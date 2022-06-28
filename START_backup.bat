@@ -1,1 +1,1 @@
-.\programy\ruby311_x64\bin\ruby.exe .\backup.rb
+.\programy\ruby_x64\bin\ruby.exe .\backup.rb

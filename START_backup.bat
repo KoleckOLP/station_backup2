@@ -1,1 +1,1 @@
-.\programy\ruby_x64\bin\ruby.exe .\backup.rb
+.\programy\ruby311_x64\bin\ruby.exe .\backup.rb log 1>C:\BackupScada2\logging.txt 2>C:\BackupScada2\erroring.txt

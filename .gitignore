@@ -1,6 +1,13 @@
 stations.csv
+stations_backup.csv
+
 errors.txt
+erroring.txt
+logging.txt
+
 log.7z
+log.rar
+
 bck/*
 err/*
 log/*

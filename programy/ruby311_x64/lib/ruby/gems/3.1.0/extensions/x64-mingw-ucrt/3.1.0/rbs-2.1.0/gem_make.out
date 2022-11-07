@@ -1,0 +1,33 @@
+current directory: D:/a/rubyinstaller2-packages/rubyinstaller2-packages/mingw-w64-ruby31/pkg/mingw-w64-ucrt-x86_64-ruby31/ucrt64/lib/ruby/gems/3.1.0/gems/rbs-2.1.0/ext/rbs_extension
+D:/a/rubyinstaller2-packages/rubyinstaller2-packages/mingw-w64-ruby31/pkg/mingw-w64-ucrt-x86_64-ruby31/ucrt64/bin/ruby --disable\=gems -ID:/a/rubyinstaller2-packages/rubyinstaller2-packages/mingw-w64-ruby31/pkg/mingw-w64-ucrt-x86_64-ruby31/ucrt64/lib/ruby/3.1.0/x64-mingw-ucrt -I D:/a/rubyinstaller2-packages/rubyinstaller2-packages/mingw-w64-ruby31/src/ruby-3.1.1/lib -r ./siteconf20220218-1672-xwnjkf.rb extconf.rb
+creating Makefile
+
+current directory: D:/a/rubyinstaller2-packages/rubyinstaller2-packages/mingw-w64-ruby31/pkg/mingw-w64-ucrt-x86_64-ruby31/ucrt64/lib/ruby/gems/3.1.0/gems/rbs-2.1.0/ext/rbs_extension
+make.exe DESTDIR\= clean
+make[1]: warning: jobserver unavailable: using -j1.  Add '+' to parent make rule.
+make[1]: Entering directory '/d/a/rubyinstaller2-packages/rubyinstaller2-packages/mingw-w64-ruby31/pkg/mingw-w64-ucrt-x86_64-ruby31/ucrt64/lib/ruby/gems/3.1.0/gems/rbs-2.1.0/ext/rbs_extension'
+make[1]: Leaving directory '/d/a/rubyinstaller2-packages/rubyinstaller2-packages/mingw-w64-ruby31/pkg/mingw-w64-ucrt-x86_64-ruby31/ucrt64/lib/ruby/gems/3.1.0/gems/rbs-2.1.0/ext/rbs_extension'
+
+current directory: D:/a/rubyinstaller2-packages/rubyinstaller2-packages/mingw-w64-ruby31/pkg/mingw-w64-ucrt-x86_64-ruby31/ucrt64/lib/ruby/gems/3.1.0/gems/rbs-2.1.0/ext/rbs_extension
+make.exe DESTDIR\=
+make[1]: warning: jobserver unavailable: using -j1.  Add '+' to parent make rule.
+make[1]: Entering directory '/d/a/rubyinstaller2-packages/rubyinstaller2-packages/mingw-w64-ruby31/pkg/mingw-w64-ucrt-x86_64-ruby31/ucrt64/lib/ruby/gems/3.1.0/gems/rbs-2.1.0/ext/rbs_extension'
+generating rbs_extension-x64-mingw-ucrt.def
+compiling constants.c
+compiling lexer.c
+compiling lexstate.c
+compiling location.c
+compiling main.c
+compiling parser.c
+compiling parserstate.c
+compiling ruby_objs.c
+compiling unescape.c
+linking shared-object rbs_extension.so
+make[1]: Leaving directory '/d/a/rubyinstaller2-packages/rubyinstaller2-packages/mingw-w64-ruby31/pkg/mingw-w64-ucrt-x86_64-ruby31/ucrt64/lib/ruby/gems/3.1.0/gems/rbs-2.1.0/ext/rbs_extension'
+
+current directory: D:/a/rubyinstaller2-packages/rubyinstaller2-packages/mingw-w64-ruby31/pkg/mingw-w64-ucrt-x86_64-ruby31/ucrt64/lib/ruby/gems/3.1.0/gems/rbs-2.1.0/ext/rbs_extension
+make.exe DESTDIR\= install
+make[1]: warning: jobserver unavailable: using -j1.  Add '+' to parent make rule.
+make[1]: Entering directory '/d/a/rubyinstaller2-packages/rubyinstaller2-packages/mingw-w64-ruby31/pkg/mingw-w64-ucrt-x86_64-ruby31/ucrt64/lib/ruby/gems/3.1.0/gems/rbs-2.1.0/ext/rbs_extension'
+/usr/bin/install -c -m 0755 rbs_extension.so ./.gem.20220218-1672-2lvq2h
+make[1]: Leaving directory '/d/a/rubyinstaller2-packages/rubyinstaller2-packages/mingw-w64-ruby31/pkg/mingw-w64-ucrt-x86_64-ruby31/ucrt64/lib/ruby/gems/3.1.0/gems/rbs-2.1.0/ext/rbs_extension'

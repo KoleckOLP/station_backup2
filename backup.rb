@@ -10,9 +10,6 @@ path = File.expand_path(File.dirname(__FILE__)) + "\\"
 path = path.gsub("/","\\")
 
 ###### Konfigurace ######
-# backup_location = "S:\\Automatizace\\Backup_scada2\\bck\\"
-# err_location = "S:\\Automatizace\\Backup_scada2\\err\\"
-# log_location = "S:\\Automatizace\\Backup_scada2\\log\\"
 backup_location = "\\\\fosfa.local\\data\\Teams\\Automatizace\\Backup_scada2\\bck\\"
 err_location = "\\\\fosfa.local\\data\\Teams\\Automatizace\\Backup_scada2\\err\\"
 log_location = "\\\\fosfa.local\\data\\Teams\\Automatizace\\Backup_scada2\\log\\"
@@ -29,16 +26,21 @@ File.readlines("#{path}stations.csv").each { |line|
     stations.append(station)
 }
 
-year_week = Time.now.strftime("%Y-%W") # Rok a týden
+week = Time.now.strftime("%W")  # Týden
+year = Time.now.strftime("%Y")  # Rok
+year_week = "#{year}-#{week}"
 
+old_backup = week.to_i-4
+
+system("del /Q #{backup_location.gsub("/","\\")}*-#{old_backup}*")  # smaže 4 týdny staré backupy
 system("del /Q #{err_location.gsub("/","\\")}*.*")  # smaže všechny předchozí errory
 system("del /Q #{log_location.gsub("/","\\")}*.*")  # smaže všechny předchozí logy
 system("del /Q #{path.gsub("/","\\")}log.7z")  # smaže log co byl minule poslán emailem .7z
-system("del /Q #{path.gsub("/","\\")}log.rar")  # smaže log co byl minule poslán emailem .rar
 system("del /Q #{path.gsub("/","\\")}errors.txt")  # smaže error log z minula
 
 ####### vytvoření backupů ######
 stations.each_with_index { |station, i|
+puts("==================== Stanice #{i+1}. #{station[0]} ====================\n")
     if system("ping -w 800 #{station[0]} -n 4")  # backup only if station is online
 
         puts("\n ==== připojit disk ====")
@@ -56,11 +58,8 @@ stations.each_with_index { |station, i|
             archive_end = "#{station[4]} 1> #{log_location}log-#{station[0]}.txt 2> #{err_location}err-#{station[0]}.txt"
         end 
 
-        if ARGV[1] == "rar"
-            archive_cmd = "#{path}programy\\WinRar611_x64\\Rar.exe a -u -r -as -y -m5 -o+ -dh #{backup_location}backup_#{station[0]}_#{year_week}.rar " + archive_end       
-        else
-            archive_cmd = "#{path}programy\\7z2200_x64\\7za.exe u -r -up1q0r2x1y2z1w2 -y -bb #{backup_location}backup_#{station[0]}_#{year_week}.7z " + archive_end
-        end
+        archive_cmd = "#{path}programy\\7z2200_x64\\7za.exe u -r -up1q0r2x1y2z1w2 -y -bb -mmt #{backup_location}backup_#{station[0]}_#{year_week}.7z " + archive_end
+
         system(archive_cmd)
         puts("==== konec archivace ===")
 
@@ -74,7 +73,7 @@ stations.each_with_index { |station, i|
         File.open("#{err_location}err-#{station[0]}.txt", "w") { |f|
             f.write(" !!!!!!!!!!!!!!!!!!!! #{station[0]} OFFLINE! !!!!!!!!!!!!!!!!!!!!") }
     end
-    puts("==================== Dokončeno #{i+1}. #{station[0]} ====================\n")
+    puts("=============== Dokončeno ===============\n")
 }
 
 ###### Tělo emailu ######
@@ -109,13 +108,9 @@ File.open("#{path}errors.txt", "w") { |f|
     }
 
 # zabalení logů do log.7z
-if ARGV[1] == "rar"
-    system("#{path}programy/WinRar611_x64/Rar.exe a log.rar #{log_location}log*")
-    log = path+"log.rar"
-else
-    system("#{path}programy/7z2200_x64/7za.exe a log.7z #{log_location}log*")
-    log = path+"log.7z"
-end
+system("#{path}programy/7z2200_x64/7za.exe a log.7z #{log_location}log*")
+log = path+"log.7z"
+
 
 # odelsání mailu
 if ARGV[0] == "log"
